@@ -1,6 +1,7 @@
 $(document).ready(function(){
     var id = $("#header").html();
     var html = $("article").html();
+    $('#top').before("<style>#page_navigation a{padding:3px;border:1px solid gray;margin:2px;color:black;text-decoration:none}</style>");
     $('#top').before(id);
     $('#top').before("<input type='hidden' id='current_page'/><input type='hidden' id='show_per_page'/>");
     $('#top').before(html);
