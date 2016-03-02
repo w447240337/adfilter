@@ -19,7 +19,6 @@ $(document).ready(function(){
     $(document).ready(function(){
         var show_per_page = 5; 
         var number_of_items = $('.content__article-body').children().size();
-        alert(number_of_items);
         var number_of_pages = Math.ceil(number_of_items/show_per_page);
         $('#current_page').val(0);
         $('#show_per_page').val(show_per_page);
@@ -42,7 +41,6 @@ $(document).ready(function(){
         }
     }
     function next(){
-        alert("1");
         new_page = parseInt($('#current_page').val()) + 1;
         if($('.active_page').next('.page_link').length==true){
             go_to_page(new_page);
@@ -77,4 +75,22 @@ $(document).ready(function(){
         $('.page_link[longdesc=' + page_num +']').addClass('active_page').siblings('.active_page').removeClass('active_page');
         $('#current_page').val(page_num);
     });
+    //光标选取获得单词
+    var funcGetSelectText = function(){
+        var txt = '';
+        if(document.selection){
+            txt = document.selection.createRange().text;//ie
+        }else{
+            txt = document.getSelection();
+        }
+        return txt.toString();
+    }
+    var container = container || document;
+    container.onmouseup = function(){
+        var txt = funcGetSelectText();
+        if(txt)
+        {
+            alert(txt);
+        }
+    }
 });
