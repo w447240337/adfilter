@@ -8,6 +8,12 @@
         "default_title": "6666",
         "default_popup": "popup.html"
     },
+    //放开对任何域名的权限
+    "permissions": [
+		"http://*/*", 
+		"https://*/*",
+		"storage"
+	],
 	"content_scripts": [
         {
             "matches": ["*://www.theguardian.com/*"],

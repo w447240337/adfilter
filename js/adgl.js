@@ -16,6 +16,7 @@ $(document).ready(function(){
     $("#dfp-ad--inline1").remove();
     $("#dfp-ad--inline2").remove();
     $("iframe").remove();
+    //添加分页
     $(document).ready(function(){
         var show_per_page = 5; 
         var number_of_items = $('.content__article-body').children().size();
@@ -90,7 +91,27 @@ $(document).ready(function(){
         var txt = funcGetSelectText();
         if(txt)
         {
-            alert(txt);
+            $.ajax(  
+                {  
+                    data:{
+                        keyfrom:"asdasdsa",
+                        key:"806358770",
+                        type:"data",
+                        doctype:"json",
+                        callback:"show",
+                        version:"1.1",
+                        q:txt
+                    },
+                    type:'get',  
+                    url : 'http://fanyi.youdao.com/openapi.do',  
+                    success  : function(data) {
+                        console.log(data);
+                    },  
+                    error : function(data) {  
+                        console.log(data);  
+                    }  
+                }  
+            );  
         }
     }
 });
