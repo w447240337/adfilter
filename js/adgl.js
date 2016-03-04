@@ -4,12 +4,12 @@ $(document).ready(function(){
     //分页CSS
     $('#top').before("<style>#page_navigation a{padding:3px;border:1px solid gray;margin:2px;color:black;text-decoration:none}</style>");
     //弹出框CSS
-    $('#top').before("<style>.frame{position: absolute;height: 158px;width: 291px;background-color: #dcdcdc;border:1px solid #000;}.up{border-bottom:1px solid #000;height: 50%;}</style>");
+    $('#top').before("<style>.frame{position: absolute;height: 158px;width: 291px;background-color: #dcdcdc;border:1px solid #000;}.up{border-bottom:1px solid #000;height: 50%;}.right{cursor:pointer}</style>");
     $('#top').before(id);
     $('#top').before("<input type='hidden' id='current_page'/><input type='hidden' id='show_per_page'/>");
     $('#top').before(html);
     $('#top').before("<div id='page_navigation'></div><br>");
-    $('#top').before('<div class="frame" style="display:none"><div class="up"><div class="left">go</div><div class="right" style="float:right">喇叭</div></div><div class="down"></div></div>');
+    $('#top').before('<div class="frame" style="display:none"><div class="up"><div class="left" style="padding-top:30px;font-size:20px;"></div><div class="right" style="float:right">喇叭<div class="mp3"></div></div></div><div class="down"></div></div>');
     $(".content__main-column").css({"max-width": "58.75rem"});
     $("#top").remove();
     $(".content__secondary-column").remove();
@@ -19,21 +19,22 @@ $(document).ready(function(){
     $(".submeta").remove();
     $("#dfp-ad--inline1").remove();
     $("#dfp-ad--inline2").remove();
+    $(".ad-slot__label").remove();
     $("iframe").remove();
     //添加分页
     $(document).ready(function(){
-        var show_per_page = 5; 
+        var show_per_page = 3; 
         var number_of_items = $('.content__article-body').children().size();
         var number_of_pages = Math.ceil(number_of_items/show_per_page);
         $('#current_page').val(0);
         $('#show_per_page').val(show_per_page);
-        var navigation_html = '<a class="previous_link" href="javascript:previous();">Prev</a>';
+        var navigation_html = '<a class="previous_link" href="javascript:previous();">上一页</a>';
         var current_link = 0;
         while(number_of_pages > current_link){
             navigation_html += '<a class="page_link" longdesc="' + current_link +'">'+ (current_link + 1) +'</a>';
             current_link++;
         }
-        navigation_html += '<a class="next_link" href="javascript:next();">Next</a>';
+        navigation_html += '<a class="next_link" href="javascript:next();">下一页</a>';
         $('#page_navigation').html(navigation_html);
         $('#page_navigation .page_link:first').addClass('active_page');
         $('.content__article-body').children().css('display', 'none');
@@ -94,6 +95,9 @@ $(document).ready(function(){
     container.onmouseup = function(ev){
         var txt = funcGetSelectText();
         var mousePos = mouseCoords(ev); 
+        $(".frame").mouseleave(function(){
+            $(".mp3").html('<a></a>');
+        });
         if(txt){
             $.ajax(  
                 {  
@@ -112,16 +116,22 @@ $(document).ready(function(){
                         console.log(JSON.parse(data).basic.explains);
                         var a = JSON.parse(data).basic.explains;
                         var b = a + "";
-                        $(".frame").css({"top":mousePos.y,"left":mousePos.x,"display":"block"});
+                        $(".frame").css({"top":mousePos.y-158,"left":mousePos.x,"display":"block"});
+                        $(".right").click(function(){
+                            $(".mp3").html('<audio autoplay="autoplay"><source src="http://media.shanbay.com/audio/us/' + txt +  '.mp3" type="audio/mpeg"></audio>');
+                        })
                         $(".down").text(b);
                         $(".left").text(txt);
                     },  
-                    error : function(data) {  
-                        console.log(data);  
+                    error : function() {  
+                        console.log("wrong");  
                     }  
                 }  
             ); 
         }else{
+            $(".frame").click(function(){
+                $(".frame").css({"display":"block"});
+            })
             $(".frame").css({"display":"none"});
         }
     }
