@@ -1,11 +1,15 @@
 $(document).ready(function(){
     var id = $("#header").html();
     var html = $("article").html();
+    //分页CSS
     $('#top').before("<style>#page_navigation a{padding:3px;border:1px solid gray;margin:2px;color:black;text-decoration:none}</style>");
+    //弹出框CSS
+    $('#top').before("<style>.frame{position: absolute;height: 158px;width: 291px;background-color: #dcdcdc;border:1px solid #000;}.up{border-bottom:1px solid #000;height: 50%;}</style>");
     $('#top').before(id);
     $('#top').before("<input type='hidden' id='current_page'/><input type='hidden' id='show_per_page'/>");
     $('#top').before(html);
     $('#top').before("<div id='page_navigation'></div><br>");
+    $('#top').before('<div class="frame" style="display:none"><div class="up"><div class="left">go</div><div class="right" style="float:right">喇叭</div></div><div class="down"></div></div>');
     $(".content__main-column").css({"max-width": "58.75rem"});
     $("#top").remove();
     $(".content__secondary-column").remove();
@@ -84,13 +88,13 @@ $(document).ready(function(){
         }else{
             txt = document.getSelection();
         }
-        return txt.toString();
+            return txt.toString();
     }
     var container = container || document;
-    container.onmouseup = function(){
+    container.onmouseup = function(ev){
         var txt = funcGetSelectText();
-        if(txt)
-        {
+        var mousePos = mouseCoords(ev); 
+        if(txt){
             $.ajax(  
                 {  
                     data:{
@@ -105,13 +109,30 @@ $(document).ready(function(){
                     type:'get',  
                     url : 'http://fanyi.youdao.com/openapi.do',  
                     success  : function(data) {
-                        console.log(data);
+                        console.log(JSON.parse(data).basic.explains);
+                        var a = JSON.parse(data).basic.explains;
+                        var b = a + "";
+                        $(".frame").css({"top":mousePos.y,"left":mousePos.x,"display":"block"});
+                        $(".down").text(b);
+                        $(".left").text(txt);
                     },  
                     error : function(data) {  
                         console.log(data);  
                     }  
                 }  
-            );  
+            ); 
+        }else{
+            $(".frame").css({"display":"none"});
         }
     }
+    function mouseCoords(ev) 
+    { 
+        if(ev.pageX || ev.pageY){ 
+            return {x:ev.pageX, y:ev.pageY}; 
+        } 
+        return{ 
+            x:ev.clientX + document.body.scrollLeft - document.body.clientLeft, 
+            y:ev.clientY + document.body.scrollTop - document.body.clientTop 
+        }; 
+    } 
 });
