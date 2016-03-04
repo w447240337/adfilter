@@ -2,7 +2,7 @@ $(document).ready(function(){
     var id = $("#header").html();
     var html = $("article").html();
     //分页CSS
-    $('#top').before("<style>#page_navigation a{padding:3px;border:1px solid gray;margin:2px;color:black;text-decoration:none}</style>");
+    $('#top').before("<style>#page_navigation{text-align:center;}#page_navigation a{padding:3px;border:1px solid gray;margin:2px;color:black;text-decoration:none}</style>");
     //弹出框CSS
     $('#top').before("<style>.frame{position: absolute;height: 158px;width: 291px;background-color: #dcdcdc;border:1px solid #000;}.up{border-bottom:1px solid #000;height: 50%;}.right{cursor:pointer}</style>");
     $('#top').before(id);
@@ -23,7 +23,11 @@ $(document).ready(function(){
     $("iframe").remove();
     //添加分页
     $(document).ready(function(){
-        var show_per_page = 3; 
+        if(screen.width>800){
+            var show_per_page = 5; 
+        }else{
+            var show_per_page = 3;
+        }
         var number_of_items = $('.content__article-body').children().size();
         var number_of_pages = Math.ceil(number_of_items/show_per_page);
         $('#current_page').val(0);

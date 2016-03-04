@@ -16,7 +16,7 @@
 	],
 	"content_scripts": [
         {
-            "matches": ["*://www.theguardian.com/*"],
+            "matches": ["*://www.theguardian.com/politics/*"],
             "js": ["js/jquery-1.8.3.min.js" , "js/adgl.js"]
         }
     ]
