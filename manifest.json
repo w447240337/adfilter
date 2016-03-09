@@ -16,7 +16,13 @@
 	],
 	"content_scripts": [
         {
-            "matches": ["*://www.theguardian.com/politics/*"],
+            "matches": ["*://www.theguardian.com/politics/*",
+                        "*://www.theguardian.com/technology/*",
+                        "*://www.theguardian.com/world/*",
+                        "*://www.theguardian.com/commentisfree/*",
+                        "*://www.theguardian.com/music/*",
+                        "*://www.theguardian.com/lifeandstyle/*"
+                       ],
             "js": ["js/jquery-1.8.3.min.js" , "js/adgl.js"]
         }
     ]
